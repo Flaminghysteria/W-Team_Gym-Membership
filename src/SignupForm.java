@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 
 public class SignupForm extends JFrame{
     private JTextField nameField;
@@ -43,6 +44,31 @@ public class SignupForm extends JFrame{
             new GymLogin().setVisible(true);
             dispose();
         });
+    }
+    private boolean signup(String email, String user, String pass){
+        try(BufferedReader br = new BufferedReader(new FileReader("users.txt"))) {
+            String line;
+            while ((line=br.readLine())!=null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(user)||parts[1].equals(email)) {
+                    return false;
+                }
+            }
+        }catch(FileNotFoundException e) {
+            System.out.println("Error");
+            return false;
+        }catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        try(BufferedWriter bw= new BufferedWriter(new FileWriter("users.txt", true))){
+            bw.write(user+" "+email+" "+ pass);
+            bw.write("\n");
+            return true;
+        }catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.io.*;
+import java.util.*;
 public abstract class User {
     private int userId;
     private String name;
@@ -15,7 +18,25 @@ public abstract class User {
         this.password = password;
     }
 
-    public boolean login(){
+
+    public boolean login(String user, String pass){
+        try(BufferedReader br= new BufferedReader(new FileReader("users.txt"))){
+            String line;
+            while((line= br.readLine())!=null){
+                String[] parts = line.split(",");
+                if (parts[0].equals(user)||parts[1].equals(user)) {
+                    if(parts[2].equals(pass)){
+                        return true;
+                    }
+                }
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
         return false;
     }
 
