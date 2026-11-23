@@ -1,16 +1,9 @@
 public class Trainer extends User{
-    private String specialization;
-
-    public Trainer(int userId, String name, String email, String phone, String username, String password, String specialization){
-        super(userId, name, email, phone, username, password);
-        this.specialization = specialization;
+    public Trainer(String name, String email, String phone, String username, String password){
+        super(name, email, phone, username, password);
     }
 
-    public String getSpecialization() {
-        return specialization;
-    }
+    public void createSession() {
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
     }
 }
