@@ -26,9 +26,17 @@ public class MembershipPlan1st extends JFrame {
 
         add(promptLabel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
+
+        withTrainerButton.addActionListener(e -> {
+            new MembershipPlan2nd().setVisible(true);
+            dispose();
+        });
+
+        withTrainerButton.addActionListener(e -> {
+            new MembershipPlan2nd().setVisible(true);
+            dispose();
+        });
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MembershipPlan1st().setVisible(true));
-    }
+
 }

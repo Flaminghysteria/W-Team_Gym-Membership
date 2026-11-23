@@ -40,7 +40,7 @@ public class SignupForm extends JFrame{
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE
             );
-            new GymLogin().setVisible(true);
+            new MembershipPlan1st().setVisible(true);
             dispose();
         });
     }

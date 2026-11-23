@@ -57,7 +57,5 @@ public class MembershipPlan2nd extends JFrame {
         // TODO: Connect to MembershipPlan / Dashboard / Signup flow as needed
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MembershipPlan2nd().setVisible(true));
-    }
+
 }
