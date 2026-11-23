@@ -5,8 +5,21 @@ public class TrainerProfile {
 
     private JPanel panel1;
     private JButton selectButton;
+    private JLabel descriptionLabel;
 
     public TrainerProfile() {
+
+
+        descriptionLabel.setText(
+                "<html><div style='text-align: center;'>" +
+                        "Hi! I'm Jarvis, a dedicated fitness trainer.<br>" +
+                        "I specialize in strength training and<br>" +
+                        "personalized workout programs.<br><br>" +
+                        "My goal is to help you build confidence,<br>" +
+                        "improve your fitness, and achieve your goals.<br>" +
+                        "Let's work together toward a healthier you!" +
+                        "</div></html>"
+        );
 
         selectButton.addActionListener(e -> {
 
