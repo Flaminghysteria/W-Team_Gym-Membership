@@ -14,18 +14,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Properties;
 
-/**
- * Navigation adapter for the existing W-Team Gym Membership screens.
- *
- * Paste ONLY this Java file alongside the original classes in src/ and run GymApp.
- * No changes to the original Java classes or IntelliJ .form files are required.
- *
- * Because existing components are private, this adapter accesses their field
- * names by reflection and installs navigation listeners at runtime. Renaming a
- * field in GUI Designer requires updating the corresponding name here.
- *
- * Payment is DEMO-ONLY. This class does not process real payments.
- */
+
 public class GymApp {
     private static JFrame activeWindow;
     private static boolean wantsTrainer = false;
