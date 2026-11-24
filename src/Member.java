@@ -1,18 +1,13 @@
 public class Member extends User{
-    private int membershipNo;
-    private Trainer trainer;
+    boolean hasTrainer;
 
-    public Member(int userId, String name, String email, String phone, String username, String password, int membershipNo){
-        super(userId, name, email, phone, username, password);
-        this.membershipNo = membershipNo;
-        this.trainer = null;
+    public Member(String name, String email, String phone, String username, String password, boolean hasTrainer){
+        super(name, email, phone, username, password);
+        this.hasTrainer = hasTrainer;
     }
 
-    public void setTrainer(Trainer trainer) {
-        this.trainer = trainer;
+    public boolean getHasTrainer() {
+        return hasTrainer;
     }
 
-    public Trainer getTrainer() {
-        return trainer;
-    }
 }

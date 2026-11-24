@@ -2,15 +2,13 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public abstract class User {
-    private int userId;
     private String name;
     private String email;
     private String phone;
     private String username;
     private String password;
 
-    public User(int userId, String name, String email, String phone, String username, String password){
-        this.userId = userId;
+    public User(String name, String email, String phone, String username, String password){
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -48,10 +46,6 @@ public abstract class User {
 
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
     public String getName() {
         return name;
     }
@@ -67,4 +61,7 @@ public abstract class User {
     public String getUsername() {
         return username;
     }
+
+    public String getPassword() { return password;}
+
 }
