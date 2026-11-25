@@ -7,16 +7,10 @@ public class MembershipPlan {
             this.fee = 0.0;
         }
 
-        // Parameterized Constructor
         public MembershipPlan(String planName, double fee) {
             this.planName = planName;
             this.fee = fee;
         }
-
-        public double calculateTotalFee(int multiplier) {
-            return this.fee * multiplier;
-        }
-
 
         public void renewPlan(double newFee, int extraMonths) {
 
