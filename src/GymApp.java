@@ -12,6 +12,7 @@ import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Properties;
 import java.io.File;
 
@@ -52,7 +53,7 @@ public class GymApp {
                 signedInUser = username;
                 JOptionPane.showMessageDialog(login, "Welcome, " + username + "!");
                 showDashboard();
-            } catch (IOException | GeneralSecurityException ex) {
+            } catch (IOException ex) {
                 error("Could not check login details", ex);
             } finally {
                 Arrays.fill(password, '\0');
@@ -84,7 +85,7 @@ public class GymApp {
                 JOptionPane.showMessageDialog(signup,
                         "Account created on this computer! Choose your membership plan.");
                 showTrainerOption();
-            } catch (IOException | GeneralSecurityException ex) {
+            } catch (IOException ex) {
                 error("Could not save your account", ex);
             } finally {
                 Arrays.fill(password, '\0');
@@ -258,8 +259,11 @@ public class GymApp {
     }
 
     private static <T> T fieldOrNull(Object owner, String fieldName, Class<T> type) {
-        try { return field(owner, fieldName, type); }
-        catch (RuntimeException ex) { return null; }
+        try {
+            return field(owner, fieldName, type);
+        } catch (RuntimeException ex) {
+            return null;
+        }
     }
 
     private static JComponent tryGetDesignerRoot(Object screen) {
@@ -309,80 +313,54 @@ public class GymApp {
         }
     }
 
-    // Local-only demo account store. No database or internet service is used.
-    // Passwords are salted and hashed, never saved as plain text.
+
     private static class LocalAccounts {
-        private static final Path PATH = Paths.get(
-                System.getProperty("user.home"), ".w-team-gym-demo", "accounts.properties");
-        private static final SecureRandom RANDOM = new SecureRandom();
-        private static final int ITERATIONS = 120_000;
+        private static final Path PATH = Paths.get("users.txt");
 
-        private static String key(String username) {
-            return "account." + Base64.getUrlEncoder().withoutPadding()
-                    .encodeToString(username.getBytes(java.nio.charset.StandardCharsets.UTF_8));
-        }
-
-        private static Properties load() throws IOException {
-            Properties data = new Properties();
-            if (Files.exists(PATH)) {
-                try (InputStream in = Files.newInputStream(PATH)) {
-                    data.load(in);
-                }
+        // Helper method to ensure users.txt exists before reading
+        private static java.util.List<String> readAllLines() throws IOException {
+            if (!Files.exists(PATH)) {
+                Files.createFile(PATH);
             }
-            return data;
+            return Files.readAllLines(PATH);
         }
 
         private static boolean exists(String username) throws IOException {
-            return load().containsKey(key(username) + ".password");
+            for (String line : readAllLines()) {
+                String[] parts = line.split("\\|");
+                if (parts.length > 0 && parts[0].equals(username)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static void register(String username, char[] password, String name,
-                                     String email, String phone)
-                throws IOException, GeneralSecurityException {
-            Properties data = load();
-            String prefix = key(username);
-            if (data.containsKey(prefix + ".password")) {
+                                     String email, String phone) throws IOException {
+            if (exists(username)) {
                 throw new IOException("Username already exists.");
             }
-            byte[] salt = new byte[16];
-            RANDOM.nextBytes(salt);
-            byte[] hash = hash(password, salt);
-            data.setProperty(prefix + ".password",
-                    Base64.getEncoder().encodeToString(salt) + ":" +
-                            Base64.getEncoder().encodeToString(hash));
-            data.setProperty(prefix + ".username", username);
-            data.setProperty(prefix + ".name", name);
-            data.setProperty(prefix + ".email", email);
-            data.setProperty(prefix + ".phone", phone);
-            Files.createDirectories(PATH.getParent());
-            try (OutputStream out = Files.newOutputStream(PATH)) {
-                data.store(out, "W-Team Gym demo accounts (local computer only)");
-            }
-            Arrays.fill(hash, (byte) 0);
+
+            // Convert char[] password to plain String and join fields with "|"
+            String plainPassword = new String(password);
+            String record = String.join("|", username, plainPassword, name, email, phone);
+
+            // Append the new user as a new line in users.txt
+            Files.write(PATH, Collections.singletonList(record),
+                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         }
 
-        private static boolean verify(String username, char[] password)
-                throws IOException, GeneralSecurityException {
-            String record = load().getProperty(key(username) + ".password");
-            if (record == null) return false;
-            String[] parts = record.split(":", 2);
-            if (parts.length != 2) return false;
-            byte[] salt = Base64.getDecoder().decode(parts[0]);
-            byte[] expected = Base64.getDecoder().decode(parts[1]);
-            byte[] actual = hash(password, salt);
-            boolean matches = java.security.MessageDigest.isEqual(expected, actual);
-            Arrays.fill(actual, (byte) 0);
-            return matches;
-        }
+        private static boolean verify(String username, char[] password) throws IOException {
+            String plainPassword = new String(password);
 
-        private static byte[] hash(char[] password, byte[] salt) throws GeneralSecurityException {
-            PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, 256);
-            try {
-                return SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
-                        .generateSecret(spec).getEncoded();
-            } finally {
-                spec.clearPassword();
+            for (String line : readAllLines()) {
+                String[] parts = line.split("\\|");
+                // parts[0] is username, parts[1] is password
+                if (parts.length >= 2 && parts[0].equals(username) && parts[1].equals(plainPassword)) {
+                    return true;
+                }
             }
+            return false;
         }
     }
 }
