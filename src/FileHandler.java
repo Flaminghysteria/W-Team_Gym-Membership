@@ -2,24 +2,43 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileHandler {
+
+    public static void fileCreator(){
+        File file = new File("users.txt");
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+            }
+        }catch (IOException e){
+            new ErrorHandler(null).JOptionPaneError("Could not create users.txt" + e.getMessage());
+        }
+    }
     public static boolean saveUser(String name, String email, String phone, String username, String password) {
-        boolean success=findUser(name ,email , phone ,username);
+        fileCreator();
+
+        if(findUser(name, email, phone, username)){
+            return false;
+        }
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("users.txt", true))){
-            bw.write(name+" "+email+" "+phone+" "+username+" "+password+" \n");
+            bw.write(name+"|"+email+"|"+phone+"|"+username+"|"+password);
+            bw.newLine();
+            return true;
         } catch (IOException e) {
             new ErrorHandler(null).JOptionPaneError(e.getMessage());
             return false;
         }
-        return true;
     }
     public static ArrayList<User> loadUsers(){
+        fileCreator();
         ArrayList<User> users = new ArrayList<User>();
         try(BufferedReader br = new BufferedReader(new FileReader("users.txt"))){
             String line;
             while((line = br.readLine()) != null){
-                String[] parts = line.split(" ");
-                User user = new User(parts[0], parts[1], (parts[2]), parts[3], parts[4]);
-                users.add(user);
+                String[] parts = line.split("\\|");
+                if(parts.length >= 5){
+                    User user = new User(parts[0], parts[1], (parts[2]), parts[3], parts[4]);
+                    users.add(user);
+                }
             }
         } catch (IOException e) {
             new ErrorHandler(null).JOptionPaneError(e.getMessage());
@@ -28,18 +47,13 @@ public class FileHandler {
         return users;
     }
     public static boolean findUser(String name, String email, String phone, String username){
-        try (BufferedReader br = new BufferedReader(new FileReader("users.txt"))) {
-            String line;
-            while((line = br.readLine()) != null){
-                String[] parts = line.split(" ");
-                if(parts[0].equals(name)) return true;
-                if(parts[1].equals(email)) return true;
-                if(parts[2].equals(phone)) return true;
-                if(parts[3].equals(username)) return true;
+        for(User user : loadUsers()){
+            if(user.getName().equals(name) ||
+               user.getEmail().equals(email) ||
+               user.getPhone().equals(phone) ||
+               user.getUsername().equals(username)){
+                return true;
             }
-        }catch (IOException e){
-            new ErrorHandler(null).JOptionPaneError(e.getMessage());
-            return false;
         }
         return false;
     }

@@ -28,10 +28,9 @@ public class GymLogin extends JFrame {
                 return;
             }
 
-            // Admin login
             if (username.equals("admin")) {
-
-                if (password.equals("YOUR_ADMIN_PASSWORD")) {
+                Admin admin = new Admin();
+                if (password.equals(admin.getPassword())) {
                     JOptionPane.showMessageDialog(this, "Welcome, Admin!");
                     new AdminProfile1st().setVisible(true);
                     dispose();
@@ -43,7 +42,7 @@ public class GymLogin extends JFrame {
                 return;
             }
 
-            // Regular user login
+
             UsersManager manager = new UsersManager();
 
             if (manager.login(username, password)) {
