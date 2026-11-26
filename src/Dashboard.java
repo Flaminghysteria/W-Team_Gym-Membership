@@ -5,4 +5,8 @@ public class Dashboard {
     private JButton seeMembershipPlanButton;
     private JButton updateProfileButton;
     private JButton logoutButton;
+
+    public JPanel getPanelMain() {
+        return panelMain;
+    }
 }
