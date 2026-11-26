@@ -46,6 +46,16 @@ public class GymApp {
                     warn("Please enter both your username and password.");
                     return;
                 }
+
+                // Check for Admin credentials first
+                if (username.equals("admin") && String.valueOf(password).equals("k7#Rp9$vM2@x")) {
+                    signedInUser = "admin";
+                    JOptionPane.showMessageDialog(login, "Welcome, Admin!");
+                    showAdminProfile();
+                    return; // Stop here so it doesn't run the regular user login below
+                }
+
+                // Regular user check from users.txt
                 if (!LocalAccounts.verify(username, password)) {
                     warn("Invalid username or password. Create an account first if you're new.");
                     return;
@@ -60,6 +70,13 @@ public class GymApp {
             }
         });
         display(login);
+    }
+
+    private static void showAdminProfile() {
+        AdminProfile1st adminProfile = new AdminProfile1st();
+        // If you have a logout or back button on AdminProfile1st, wire it up here:
+        // replaceButton(adminProfile, "logoutButton", GymApp::showLogin);
+        display(adminProfile);
     }
 
     private static void showSignup() {
