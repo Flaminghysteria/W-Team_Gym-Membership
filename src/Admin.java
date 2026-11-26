@@ -22,7 +22,7 @@ public class Admin extends User{
 
     }
 
-    public void managaeSessions() {
+    public void manageSessions() {
 
     }
 
