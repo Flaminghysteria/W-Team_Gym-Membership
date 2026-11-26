@@ -10,6 +10,10 @@ public class User {
         this.password=password;
     }
 
+    public User(String username, String password) {
+        this("Administrator", "N/A", "N/A", username, password);
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
