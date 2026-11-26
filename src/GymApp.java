@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Properties;
+import java.io.File;
 
 
 public class GymApp {
@@ -21,6 +22,7 @@ public class GymApp {
     private static String selectedPlan = "";
     private static String selectedTrainer = "";
     private static String signedInUser = "";
+    private final File file = new File("users.txt");
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> safely(GymApp::showWelcome));

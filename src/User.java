@@ -1,8 +1,8 @@
 public class User {
     private String name, email, username, password;
-    private long phone;
+    private String phone;
 
-    public User(String name, String email, long phone, String username, String password){
+    public User(String name, String email, String phone, String username, String password){
         this.name=name;
         this.email=email;
         this.phone=phone;
@@ -22,7 +22,7 @@ public class User {
         this.password = password;
     }
 
-    public void setPhone(long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -42,7 +42,7 @@ public class User {
         return name;
     }
 
-    public long getPhone() {
+    public String getPhone() {
         return phone;
     }
 

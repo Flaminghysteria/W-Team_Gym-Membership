@@ -8,7 +8,7 @@ public class UsersManager {
     public UsersManager(){
         users=FileHandler.loadUsers();
     }
-    public boolean signup(String name, String email, long phone, String username, String password){
+    public boolean signup(String name, String email, String phone, String username, String password){
         boolean success= FileHandler.saveUser(name, email, phone, username, password);
         if(!success) return false;
         User user=new User(name,email,phone,username,password);
@@ -20,12 +20,12 @@ public class UsersManager {
             String line;
             while((line = br.readLine()) != null){
                 String[] parts = line.split(" ");
-                if(parts[0].equals(userInput)||parts[1].equals(userInput)||parts[2].equals((String.valueOf(userInput)))||parts[3].equals(userInput)){
+                if(parts[0].equals(userInput)||parts[1].equals(userInput)||parts[2].equals(userInput)||parts[3].equals(userInput)){
                     if(parts[4].equals(password)) return true;
                 }
             }
         }catch (IOException e){
-            System.out.println(e.getMessage());
+            new ErrorHandler(null).JOptionPaneError("Incorrect credentials. Please try again.");
             return false;
         }
         return false;
