@@ -51,15 +51,7 @@ public class GymLogin extends JFrame {
                 JOptionPane.showMessageDialog(this,
                         "Welcome, " + username + "!");
 
-                Dashboard dashboard = new Dashboard();
-
-                JFrame frame = new JFrame("Dashboard");
-                frame.setContentPane(dashboard.getPanelMain());
-                frame.setSize(500, 600);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-
+                new Dashboard().setVisible(true);
                 dispose();
 
             } else {
