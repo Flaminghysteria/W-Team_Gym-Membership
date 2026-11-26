@@ -8,8 +8,10 @@ public class MembershipPlan2nd extends JFrame {
     private JButton quarterlyPassButton;
     private JButton yearlyPassButton;
     private JLabel titleLabel;
+    private boolean hasTrainer;
 
-    public MembershipPlan2nd() {
+    public MembershipPlan2nd(boolean hasTrainer) {
+        this.hasTrainer = hasTrainer;
         setTitle("Membership Plan");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 320);
@@ -55,6 +57,8 @@ public class MembershipPlan2nd extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE
         );
         // TODO: Connect to MembershipPlan / Dashboard / Signup flow as needed
+        new MembershipPlanPage(hasTrainer).setVisible(true);
+        dispose();
     }
 
 

@@ -1,7 +1,7 @@
 
 import javax.swing.*;
 
-public class TrainerProfile {
+public class TrainerProfile extends JFrame {
 
     private JPanel panel1;
     private JButton selectButton;
@@ -16,6 +16,12 @@ public class TrainerProfile {
 
     public TrainerProfile(String trainerName) {
         this.trainerName = trainerName;
+
+        setTitle("Trainer Profile");
+        setContentPane(panel1);
+        setSize(500, 450);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         // Display the selected trainer's name
         trainerNameLabel.setText(trainerName);
@@ -35,6 +41,7 @@ public class TrainerProfile {
             );
 
             if (choice == JOptionPane.YES_OPTION) {
+
                 JOptionPane.showMessageDialog(
                         panel1,
                         trainerName
@@ -42,8 +49,14 @@ public class TrainerProfile {
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE
                 );
+                new PaymentForm().setVisible(true);
+                dispose();
             }
         });
+    }
+
+    public JButton getSelectButton() {
+        return selectButton;
     }
 
     private String getDescription(String name) {
@@ -77,20 +90,5 @@ public class TrainerProfile {
     // Allows another class to display this GUI form
     public JPanel getPanel() {
         return panel1;
-    }
-
-    public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Trainer Profile - Jarvis");
-
-            TrainerProfile profile = new TrainerProfile("Jarvis");
-
-            frame.setContentPane(profile.getPanel());
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(500, 450);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
     }
 }

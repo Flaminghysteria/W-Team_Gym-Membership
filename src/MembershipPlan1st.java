@@ -28,12 +28,12 @@ public class MembershipPlan1st extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
 
         withTrainerButton.addActionListener(e -> {
-            new MembershipPlan2nd().setVisible(true);
+            new MembershipPlan2nd(true).setVisible(true);
             dispose();
         });
 
-        withTrainerButton.addActionListener(e -> {
-            new MembershipPlan2nd().setVisible(true);
+        withoutTrainerButton.addActionListener(e -> {
+            new MembershipPlan2nd(false).setVisible(true);
             dispose();
         });
     }

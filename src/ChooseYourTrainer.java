@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ChooseYourTrainer extends JFrame {
+public class ChooseYourTrainer extends JFrame{
 
     private JLabel Icon2;
     private JLabel Icon1;
@@ -72,31 +72,8 @@ public class ChooseYourTrainer extends JFrame {
     }
 
     private void openTrainerProfile(String trainerName) {
-
-        TrainerProfile profile = new TrainerProfile(trainerName);
-
-        JFrame frame = new JFrame(
-                "Trainer Profile - " + trainerName
-        );
-
-        frame.setContentPane(profile.getPanel());
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        frame.setSize(500, 450);
-        frame.setLocationRelativeTo(this);
-
-        // Return to the trainer list when profile is closed
-        frame.addWindowListener(new WindowAdapter() {
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                ChooseYourTrainer.this.setVisible(true);
-            }
-        });
-
-        // Hide the trainer list while viewing a profile
-        setVisible(false);
-        frame.setVisible(true);
+        new TrainerProfile(trainerName).setVisible(true);
+        dispose();
     }
 
     private void resizeLabelIcon(JLabel label) {
@@ -124,10 +101,4 @@ public class ChooseYourTrainer extends JFrame {
         label.setIcon(new ImageIcon(resizedImage));
     }
 
-    public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(() -> {
-            new ChooseYourTrainer().setVisible(true);
-        });
-    }
 }

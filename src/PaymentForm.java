@@ -28,6 +28,7 @@ public class PaymentForm extends JFrame{
                     "Payment Successful",
                     JOptionPane.INFORMATION_MESSAGE
             );
+            new Dashboard().setVisible(true);
             dispose();
         });
     }
