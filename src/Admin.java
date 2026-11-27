@@ -13,11 +13,11 @@ public class Admin extends User{
         return adminId;
     }
 
-    public void manageMemebers() {
+    public void manageMembers() {
 
     }
 
-    public void ManagePlans() {
+    public void managePlans() {
 
     }
 
